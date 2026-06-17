@@ -49,11 +49,7 @@ export default function Main({
   };
 
   // Pagination calculations
-  // const productsPerPage = 12;
   const totalPages = Math.ceil(totalProductsCount / 20);
-  // const startIndex = (currentPage - 1) * 20;
-  // const endIndex = startIndex + 20;
-  //  const currentPageProducts = products.slice(startIndex, endIndex);
   const currentPageProducts = products;
 
   const handlePageChange = (pageNumber) => {

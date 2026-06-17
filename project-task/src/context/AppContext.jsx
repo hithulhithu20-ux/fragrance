@@ -18,7 +18,7 @@ export const AppProvider = ({ children }) => {
   const [searchFocused, setSearchFocused] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [products, setProducts] = useState([]);
-  const [allProducts, setAllProducts] = useState([]);
+  // const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -145,7 +145,7 @@ export const AppProvider = ({ children }) => {
 
 
         setProducts(formattedProducts);
-        setAllProducts(formattedProducts);
+        // setAllProducts(formattedProducts);
         setFilteredProducts(formattedProducts);
         console.log("SETTING PRODUCTS", formattedProducts.length);
         setAllCategories(categories);
@@ -167,42 +167,42 @@ export const AppProvider = ({ children }) => {
 
 
   useEffect(() => {
-  let filtered = [...allProducts];
+    let filtered = [...products];
 
-  if (selectedCategories.length > 0) {
-    filtered = filtered.filter(product =>
-      selectedCategories.includes(product.categoryId)
-    );
-  }
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter(product =>
+        selectedCategories.includes(product.categoryId)
+      );
+    }
 
-  if (selectedBrands.length > 0) {
-    filtered = filtered.filter(product =>
-      selectedBrands.includes(product.brandId)
-    );
-  }
+    if (selectedBrands.length > 0) {
+      filtered = filtered.filter(product =>
+        selectedBrands.includes(product.brandId)
+      );
+    }
 
-  if (selectedRatings.length > 0) {
-    filtered = filtered.filter(product =>
-      product.rating >= Math.max(...selectedRatings)
-    );
-  }
+    if (selectedRatings.length > 0) {
+      filtered = filtered.filter(product =>
+        product.rating >= Math.max(...selectedRatings)
+      );
+    }
 
-  setFilteredProducts(filtered);
+    setFilteredProducts(filtered);
 
-}, [
-  allProducts,
-  selectedCategories,
-  selectedBrands,
-  selectedRatings
-]);
+  }, [
+    products,
+    selectedCategories,
+    selectedBrands,
+    selectedRatings
+  ]);
 
 
   useEffect(() => {
     const fetchFilteredProducts = async () => {
- if (sortOption === "default") {
-    setProducts(filteredProducts);
-    return;
-  }
+      if (sortOption === "default") {
+        setProducts(filteredProducts);
+        return;
+      }
 
       try {
         const response = await fetch(
@@ -226,7 +226,9 @@ export const AppProvider = ({ children }) => {
                   ? "price"
                   : sortOption === "rating"
                     ? "rating"
-                    : "",
+                    : sortOption === "aToZ" || sortOption === "zToA"
+                      ? "productName"
+                      : "",
 
               sortType:
                 sortOption === "priceLowHigh"
@@ -235,7 +237,11 @@ export const AppProvider = ({ children }) => {
                     ? "desc"
                     : sortOption === "rating"
                       ? "desc"
-                      : "",
+                      : sortOption === "aToZ"
+                        ? "asc"
+                        : sortOption === "zToA"
+                          ? "desc"
+                          : "",
 
               ratingFilter:
                 selectedRatings.length > 0
@@ -437,7 +443,7 @@ export const AppProvider = ({ children }) => {
         setSortOption,
         allCategories,
         allBrands,
-         filteredProducts,
+        filteredProducts,
       }}
     >
       {children}

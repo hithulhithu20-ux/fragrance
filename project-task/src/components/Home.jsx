@@ -29,35 +29,7 @@ export default function Home() {
   } = useApp();
 
 
-  // Initialise selectedCategories with empty array to view all products on initial load
-  // const [selectedCategories, setSelectedCategories] = useState([]);
-  // const [selectedRatings, setSelectedRatings] = useState([]);
-  // const [selectedBrands, setSelectedBrands] = useState([]);
-  //  const [sortOption, setSortOption] = useState('default');
   const [includeOutOfStock, setIncludeOutOfStock] = useState(false);
-
-
-
-
-  // const categoriesList = [
-  //   ...new Map(products.map(product => [product.categoryId,
-  //   {
-  //     id: product.categoryId,
-  //     name: product.category
-  //   }
-  //   ])).values()];
-
-  // const brandsList = [
-  //   ...new Map(
-  //     products.map(product => [
-  //       product.brandId,
-  //       {
-  //         id: product.brandId,
-  //         name: product.brand
-  //       }
-  //     ])
-  //   ).values()
-  // ];
 
 
 
