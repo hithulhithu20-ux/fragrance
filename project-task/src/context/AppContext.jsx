@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import useDebounce from "../hooks/useDebounce";
+import api from '../hooks/api';
 
 const AppContext = createContext();
 
@@ -36,22 +37,15 @@ export const AppProvider = ({ children }) => {
     if (hasFilters) return;
     const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          "/api/getProductMaster",
-          {
-            method: "GET",
-            headers: {
-              accept: "*/*",
-              page: currentPage.toString(),
-              pageSize: "20",
-              productName: debouncedSearchQuery || "",
-            },
-          }
-        );
-
-        const data = await response.json();
-
-        console.log("API RESPONSE:", data);
+        const { data } = await api.get("/api/getProductMaster", {
+          method: "GET",
+          headers: {
+            accept: "*/*",
+            page: currentPage.toString(),
+            pageSize: "20",
+            productName: debouncedSearchQuery || "",
+          },
+        })
 
         const productArray = Array.isArray(data.data)
           ? data.data
@@ -142,7 +136,6 @@ export const AppProvider = ({ children }) => {
         setProducts(formattedProducts);
         // setAllProducts(formattedProducts);
         setFilteredProducts(formattedProducts);
-        console.log("SETTING PRODUCTS", formattedProducts.length);
         setAllCategories(categories);
         setAllBrands(brands);
 
@@ -200,49 +193,47 @@ export const AppProvider = ({ children }) => {
       }
 
       try {
-        const response = await fetch(
+        const { data } = await api.post(
           "/api/getProductFilter",
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              accept: "*/*"
-            },
-            body: JSON.stringify({
-              brandIDs: selectedBrands.join(","),
-              categoryIDs: selectedCategories.join(","),
-              minPrice: 0,
-              maxPrice: 0,
-              pageNumber: currentPage,
-              pageSize: 20,
-              sortBy:
-                sortOption === "priceLowHigh" ||
-                  sortOption === "priceHighLow"
-                  ? "price"
+            brandIDs: selectedBrands.join(","),
+            categoryIDs: selectedCategories.join(","),
+            minPrice: 0,
+            maxPrice: 0,
+            pageNumber: currentPage,
+            pageSize: 20,
+            sortBy:
+              sortOption === "priceLowHigh" ||
+                sortOption === "priceHighLow"
+                ? "price"
+                : sortOption === "rating"
+                  ? "rating"
+                  : sortOption === "aToZ" || sortOption === "zToA"
+                    ? "productName"
+                    : "",
+
+            sortType:
+              sortOption === "priceLowHigh"
+                ? "asc"
+                : sortOption === "priceHighLow"
+                  ? "desc"
                   : sortOption === "rating"
-                    ? "rating"
-                    : sortOption === "aToZ" || sortOption === "zToA"
-                      ? "productName"
-                      : "",
-
-              sortType:
-                sortOption === "priceLowHigh"
-                  ? "asc"
-                  : sortOption === "priceHighLow"
                     ? "desc"
-                    : sortOption === "rating"
-                      ? "desc"
-                      : sortOption === "aToZ"
-                        ? "asc"
-                        : sortOption === "zToA"
-                          ? "desc"
-                          : "",
+                    : sortOption === "aToZ"
+                      ? "asc"
+                      : sortOption === "zToA"
+                        ? "desc"
+                        : "",
 
-              ratingFilter:
-                selectedRatings.length > 0
-                  ? Math.max(...selectedRatings)
-                  : 0
-            })
+            ratingFilter:
+              selectedRatings.length > 0
+                ? Math.max(...selectedRatings)
+                : 0,
+          },
+          {
+            headers: {
+              accept: "*/*",
+            },
           }
         );
 
@@ -261,7 +252,6 @@ export const AppProvider = ({ children }) => {
 
         console.log("Filter Payload:", payload);
 
-        const data = await response.json();
 
 
         const productArray = data.data || [];
