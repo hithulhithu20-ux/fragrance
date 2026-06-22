@@ -9,11 +9,6 @@ export const AppProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authTab, setAuthTab] = useState('register'); // 'register' or 'signin'
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState(null); // Simulated active user state
   const [searchFocused, setSearchFocused] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -340,7 +335,6 @@ export const AppProvider = ({ children }) => {
       }
       return [...prevCart, { ...perfume, quantity: 1 }];
     });
-    setIsCartOpen(true); // Auto open cart on addition for high interaction feel
   };
 
   const removeFromCart = (id) => {
@@ -369,30 +363,8 @@ export const AppProvider = ({ children }) => {
     });
   };
 
-  // Auth operations
-  const loginUser = (email, password) => {
-    // Fake login
-    setUser({
-      name: 'John Doe',
-      email: email,
-      avatar: 'JD'
-    });
-    setIsAuthModalOpen(false);
-  };
 
-  const registerUser = (name, email, password) => {
-    // Fake registration
-    setUser({
-      name: name,
-      email: email,
-      avatar: name.split(' ').map(n => n[0]).join('').toUpperCase()
-    });
-    setIsAuthModalOpen(false);
-  };
 
-  const logoutUser = () => {
-    setUser(null);
-  };
 
   // Total cart items count
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
@@ -409,16 +381,6 @@ export const AppProvider = ({ children }) => {
         wishlist,
         searchQuery,
         setSearchQuery,
-        isCartOpen,
-        setIsCartOpen,
-        isWishlistOpen,
-        setIsWishlistOpen,
-        isAuthModalOpen,
-        setIsAuthModalOpen,
-        authTab,
-        setAuthTab,
-        isMobileMenuOpen,
-        setIsMobileMenuOpen,
         user,
         searchFocused,
         setSearchFocused,
@@ -428,9 +390,6 @@ export const AppProvider = ({ children }) => {
         removeFromCart,
         updateQty,
         toggleWishlist,
-        loginUser,
-        registerUser,
-        logoutUser,
         cartCount,
         cartTotal,
         selectedCategories,

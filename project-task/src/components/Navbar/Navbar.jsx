@@ -17,17 +17,10 @@ export default function Navbar() {
     wishlist = [],
     searchQuery,
     setSearchQuery,
-    setIsCartOpen,
-    setIsWishlistOpen,
-    setIsAuthModalOpen,
-    setAuthTab,
-    isMobileMenuOpen,
-    setIsMobileMenuOpen,
     user,
     searchFocused,
     setSearchFocused,
     addToCart,
-    logoutUser,
     cartCount,
   } = useApp();
 
@@ -63,15 +56,7 @@ export default function Navbar() {
     };
   }, [setSearchFocused]);
 
-  const handleRegisterClick = () => {
-    setAuthTab('register');
-    setIsAuthModalOpen(true);
-  };
 
-  const handleSignInClick = () => {
-    setAuthTab('signin');
-    setIsAuthModalOpen(true);
-  };
 
   // SAFE SEARCH FILTER
   const filteredProducts = safeProducts.filter((item) => {
@@ -107,12 +92,6 @@ export default function Navbar() {
 
   const toggleSection = (section) => {
     setExpandedSection((prev) => (prev === section ? null : section));
-  };
-
-  const handleMobileAction = (tab) => {
-    setAuthTab(tab);
-    setIsAuthModalOpen(true);
-    setIsMobileMenuOpen(false);
   };
 
   const getProductImage = (product) => {
@@ -357,14 +336,13 @@ export default function Navbar() {
                 </span>
               </div>
 
-              <button onClick={logoutUser}>
+              <button >
                 <FiLogOut size={16} />
               </button>
             </div>
           ) : (
             <div className="flex items-center">
               <button
-                onClick={handleRegisterClick}
                 className="flex items-center"
               >
                 <FiUser size={18} className="mr-1.5" />
@@ -373,7 +351,7 @@ export default function Navbar() {
 
               <span className="px-3">|</span>
 
-              <button onClick={handleSignInClick}>
+              <button >
                 Sign In
               </button>
             </div>
@@ -382,7 +360,6 @@ export default function Navbar() {
           <span className="px-3">|</span>
 
           <button
-            onClick={() => setIsWishlistOpen(true)}
             className="relative p-1"
           >
             <FiHeart size={20} />
@@ -397,7 +374,6 @@ export default function Navbar() {
           <span className="px-3">|</span>
 
           <button
-            onClick={() => setIsCartOpen(true)}
             className="relative p-1"
           >
             <FiShoppingCart size={20} />
@@ -413,7 +389,6 @@ export default function Navbar() {
         {/* MOBILE */}
         <div className="lg:hidden flex items-center space-x-3">
           <button
-            onClick={() => setIsCartOpen(true)}
             className="relative p-1.5"
           >
             <FiShoppingCart size={20} />
@@ -425,7 +400,7 @@ export default function Navbar() {
             )}
           </button>
 
-          <button onClick={() => setIsMobileMenuOpen(true)}>
+          <button >
             <FiMenu size={24} />
           </button>
         </div>

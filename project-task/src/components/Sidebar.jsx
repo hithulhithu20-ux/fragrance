@@ -12,7 +12,7 @@ export default function Sidebar({
   includeOutOfStock = false,
   onToggleOutOfStock,
   onClearAll,
-  outOfStockCount = 16
+  outOfStockCount
 }) {
 
 

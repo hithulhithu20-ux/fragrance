@@ -38,7 +38,7 @@ export default function Home() {
     setSelectedCategories((prev) =>
       prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
     );
-    setCurrentPage(1);
+    setCurrentPage(currentPage);
   };
 
 
@@ -46,19 +46,19 @@ export default function Home() {
     setSelectedRatings((prev) =>
       prev.includes(rating) ? prev.filter((r) => r !== rating) : [...prev, rating]
     );
-    setCurrentPage(1);
+    setCurrentPage(currentPage);
   };
 
   const handleToggleBrand = (brand) => {
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
-    setCurrentPage(1);
+    setCurrentPage(currentPage);
   };
 
   const handleToggleOutOfStock = () => {
     setIncludeOutOfStock((prev) => !prev);
-    setCurrentPage(1);
+    setCurrentPage(currentPage);
   };
 
   const handleClearAll = () => {
@@ -84,7 +84,7 @@ export default function Home() {
     } else if (filter.type === 'outOfStock') {
       setIncludeOutOfStock(false);
     }
-    setCurrentPage(1);
+    setCurrentPage(currentPage);
   };
 
   // Compile active tags list to display in Main.jsx
